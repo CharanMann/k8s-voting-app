@@ -1,24 +1,29 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: redis-deployment
+  name: postgres-deployment
   labels:
-    app: redis
+    app: demo-voting-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      name: redis-pod
+      name: postgres-pod
       app: demo-voting-app
   template:
     metadata:
-      name: redis-pod
+      name: postgres-pod
       labels:
-        name: redis-pod
+        name: postgres-pod
         app: demo-voting-app
     spec:
       containers:
-        - name: redis
-          image: redis
-          ports:
-            - containerPort: 6379
+      - name: postgres
+        image: postgres:9.4
+        env:
+        - name: POSTGRES_USER
+          value: "postgres"
+        - name:  POSTGRES_PASSWORD
+          value: "postgres"
+        ports:
+         - containerPort: 5432
